@@ -21,7 +21,7 @@ OK - Todo Álbum possui um Artista
 OK - Deve ser possível inserir, listar, alterar e excluir artistas, álbuns e músicas.
 OK - Todas as listagens devem ser unitárias (pelo id) ou paginadas (todos os registros)
 OK - Deve ser possível listar todas as músicas de um determinado Artista com informações sobre o Álbum
-● Deve ser possível listar todas as músicas de um Álbum ordenadas por número de faixa ou alfabeticamente pelo título
+OK - Deve ser possível listar todas as músicas de um Álbum ordenadas por número de faixa ou alfabeticamente pelo título
 OK - Os dados devem ser persistidos utilizando um banco de dados relacional
 OK - Todos os campos são obrigatórios
 ● O ano de lançamento de um Álbum não pode ser uma data posterior a atual

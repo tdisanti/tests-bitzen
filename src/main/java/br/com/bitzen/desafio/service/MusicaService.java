@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.bitzen.desafio.business.service.IMusicaService;
+import br.com.bitzen.desafio.enumeration.OrderByEnum;
 import br.com.bitzen.desafio.integration.domain.Musica;
 import br.com.bitzen.desafio.integration.repository.MusicaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -70,9 +71,10 @@ public class MusicaService implements IMusicaService {
         musicaRepository.deleteById(id);
     }
 
+	@Override
 	public List<Map<String, Object>> listAllByIdArtista(Long idArtista) {
 		
-		List<Musica> listMusica = musicaRepository.listAllByIdArtista(idArtista);
+		List<Musica> listMusica = musicaRepository.findAllByIdArtista(idArtista);
 		List<Map<String, Object>> result = new ArrayList<>();
 		for (Musica musica : listMusica) {
 			Map<String, Object> musicaMap = new HashMap<>();
@@ -87,9 +89,38 @@ public class MusicaService implements IMusicaService {
 			musicaMap.put("album", albumMap);
 			result.add(musicaMap);
 		}
-        
 		
 		return result;
 	}
-    
+	
+	@Override
+	public List<Map<String, Object>> listAllByIdAlbum(Long idAlbum, String orderBy) {
+
+		if (OrderByEnum.TITLE.name().equals(orderBy)) {
+			return returnList(musicaRepository.findAllByAlbumIdOrderByTitle(idAlbum));
+		} else if (OrderByEnum.TRACK_NUMBER.name().equals(orderBy)) {
+			return returnList(musicaRepository.findAllByAlbumIdOrderByTrackNumber(idAlbum));
+		}
+		return null;
+	}
+	
+	private List<Map<String, Object>> returnList(List<Musica> listMusica){
+		List<Map<String, Object>> result = new ArrayList<>();
+		for (Musica musica : listMusica) {
+			Map<String, Object> musicaMap = new HashMap<>();
+			musicaMap.put("id", musica.getId());
+			musicaMap.put("title", musica.getTitle());
+			musicaMap.put("durationSeconds", musica.getDurationSeconds());
+			musicaMap.put("trackNumber", musica.getTrackNumber());
+			
+			Map<String, Object> albumMap = new HashMap<>();
+			albumMap.put("id", musica.getAlbum().getId());
+			albumMap.put("title", musica.getAlbum().getTitle());
+			musicaMap.put("album", albumMap);
+			result.add(musicaMap);
+		}
+		
+		return result;
+	}
+	
 }

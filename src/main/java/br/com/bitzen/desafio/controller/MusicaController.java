@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.bitzen.desafio.business.service.IMusicaService;
 import br.com.bitzen.desafio.integration.domain.Musica;
-import br.com.bitzen.desafio.service.MusicaService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MusicaController {
 
 	@Autowired
-	private MusicaService musicaService;
+	private IMusicaService musicaService;
 
 	@PostMapping
 	public ResponseEntity<Object> save(@RequestBody Musica musica) {
@@ -72,11 +72,18 @@ public class MusicaController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
-    @GetMapping("/listByArtista/{idArtista}/")
+    @GetMapping("/listAllByIdArtista/{idArtista}/")
     public ResponseEntity<Object> listAllByIdArtista(@PathVariable Long idArtista) {
     	log.debug("MusicaController: listAllByIdArtista {}", idArtista);
     	
         return new ResponseEntity<>(musicaService.listAllByIdArtista(idArtista), HttpStatus.OK);
+    }
+    
+    @GetMapping("/listAllByIdAlbum/{idAlbum}/")
+    public ResponseEntity<Object> listAllByIdAlbum(@PathVariable Long idAlbum, @RequestParam String orderBy) {
+    	log.debug("MusicaController: listAllByIdAlbum {} {}", idAlbum, orderBy);
+    	
+        return new ResponseEntity<>(musicaService.listAllByIdAlbum(idAlbum, orderBy), HttpStatus.OK);
     }
 
 }
