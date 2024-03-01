@@ -32,9 +32,9 @@ OK - Todos os campos são obrigatórios
 ● Os dados devem permanecer sempre consistentes
 
 **Requisitos técnicos da API:**
-● Deverão ser criados testes unitários
+OK - Deverão ser criados testes unitários
 OK - Publicar o código em repositório público
-● Deve ser utilizado mapeamento objeto relacional
+OK - Deve ser utilizado mapeamento objeto relacional
 ● Utilizar Docker para banco e API
 
 **Requisitos do Front-End:**

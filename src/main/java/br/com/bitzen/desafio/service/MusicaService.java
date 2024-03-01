@@ -1,6 +1,7 @@
 package br.com.bitzen.desafio.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,38 +74,20 @@ public class MusicaService implements IMusicaService {
 
 	@Override
 	public List<Map<String, Object>> listAllByIdArtista(Long idArtista) {
-		
-		List<Musica> listMusica = musicaRepository.findAllByIdArtista(idArtista);
-		List<Map<String, Object>> result = new ArrayList<>();
-		for (Musica musica : listMusica) {
-			Map<String, Object> musicaMap = new HashMap<>();
-			musicaMap.put("id", musica.getId());
-			musicaMap.put("title", musica.getTitle());
-			musicaMap.put("durationSeconds", musica.getDurationSeconds());
-			musicaMap.put("trackNumber", musica.getTrackNumber());
-			
-			Map<String, Object> albumMap = new HashMap<>();
-			albumMap.put("id", musica.getAlbum().getId());
-			albumMap.put("title", musica.getAlbum().getTitle());
-			musicaMap.put("album", albumMap);
-			result.add(musicaMap);
-		}
-		
-		return result;
+		return returnList(musicaRepository.findAllByIdArtista(idArtista));
 	}
 	
 	@Override
 	public List<Map<String, Object>> listAllByIdAlbum(Long idAlbum, String orderBy) {
-
 		if (OrderByEnum.TITLE.name().equals(orderBy)) {
 			return returnList(musicaRepository.findAllByAlbumIdOrderByTitle(idAlbum));
 		} else if (OrderByEnum.TRACK_NUMBER.name().equals(orderBy)) {
 			return returnList(musicaRepository.findAllByAlbumIdOrderByTrackNumber(idAlbum));
 		}
-		return null;
+		return Collections.emptyList();
 	}
 	
-	private List<Map<String, Object>> returnList(List<Musica> listMusica){
+	private List<Map<String, Object>> returnList(List<Musica> listMusica) {
 		List<Map<String, Object>> result = new ArrayList<>();
 		for (Musica musica : listMusica) {
 			Map<String, Object> musicaMap = new HashMap<>();
