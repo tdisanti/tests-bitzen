@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import lombok.Data;
 
 @Data
@@ -17,8 +16,6 @@ public class Artista {
     private String name;
     private String nationality;
     private String website;
-
-    @Lob
-    private byte[] profileImage;
+    private String profileImage;
 
 }

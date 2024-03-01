@@ -54,7 +54,7 @@ public class AlbumService implements IAlbumService {
         	
 			Album album = albumOptional.get();
 			album.setTitle(albumAtualizado.getTitle());
-			album.setYear(albumAtualizado.getYear());
+			album.setReleaseYear(albumAtualizado.getReleaseYear());
 			return albumRepository.save(album);
         } else {
 			String errorMessage = "Álbum não encontrado com o ID: " + albumAtualizado.getId();

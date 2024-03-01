@@ -1,6 +1,9 @@
 package br.com.bitzen.desafio.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +69,27 @@ public class MusicaService implements IMusicaService {
     public void delete(Long id) {
         musicaRepository.deleteById(id);
     }
+
+	public List<Map<String, Object>> listAllByIdArtista(Long idArtista) {
+		
+		List<Musica> listMusica = musicaRepository.listAllByIdArtista(idArtista);
+		List<Map<String, Object>> result = new ArrayList<>();
+		for (Musica musica : listMusica) {
+			Map<String, Object> musicaMap = new HashMap<>();
+			musicaMap.put("id", musica.getId());
+			musicaMap.put("title", musica.getTitle());
+			musicaMap.put("durationSeconds", musica.getDurationSeconds());
+			musicaMap.put("trackNumber", musica.getTrackNumber());
+			
+			Map<String, Object> albumMap = new HashMap<>();
+			albumMap.put("id", musica.getAlbum().getId());
+			albumMap.put("title", musica.getAlbum().getTitle());
+			musicaMap.put("album", albumMap);
+			result.add(musicaMap);
+		}
+        
+		
+		return result;
+	}
+    
 }

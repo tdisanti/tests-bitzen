@@ -20,11 +20,11 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private int year;
+    private int releaseYear;
     private String imageCover;
 
     @ManyToOne
-    @JoinColumn(name = "artistaId")
+    @JoinColumn(name = "artista_id") // Nome da coluna para a associação com Artista
     private Artista artista;
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)

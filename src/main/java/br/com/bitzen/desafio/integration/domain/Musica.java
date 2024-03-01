@@ -19,7 +19,7 @@ public class Musica {
     private int durationSeconds;
 
     @ManyToOne
-    @JoinColumn(name = "albumId")
+    @JoinColumn(name = "album_id")
     private Album album;
 
     private int trackNumber;

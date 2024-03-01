@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/artistas")
+@RequestMapping("/artista/v1")
 public class ArtistaController {
 
 	@Autowired
