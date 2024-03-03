@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.bitzen.desafio.business.service.IAlbumService;
 import br.com.bitzen.desafio.business.service.IMusicaService;
 import br.com.bitzen.desafio.enumeration.OrderByEnum;
 import br.com.bitzen.desafio.exception.BitzenServiceException;
+import br.com.bitzen.desafio.integration.domain.Album;
 import br.com.bitzen.desafio.integration.domain.Musica;
 import br.com.bitzen.desafio.integration.repository.MusicaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class MusicaService implements IMusicaService {
+	
+	@Autowired
+	private IAlbumService albumService;
 
     private final MusicaRepository musicaRepository;
 
@@ -120,6 +126,10 @@ public class MusicaService implements IMusicaService {
 				|| musica.getDurationSeconds() > 59)
 			throw new BitzenServiceException("A duração das músicas deve ter minutos e segundos validos");
 		
+		if(musica.getAlbum() == null || musica.getAlbum().getId() == null) throw new BitzenServiceException("Album não pode ser nulo");
+		
+		Optional<Album> albumOpt = albumService.findById(musica.getAlbum().getId());
+		if(!albumOpt.isPresent()) throw new NoSuchElementException("Album não encontrado");
 	}
 	
 }

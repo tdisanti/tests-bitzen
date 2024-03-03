@@ -2,6 +2,7 @@ package br.com.bitzen.desafio.service;
 
 import java.time.Year;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.bitzen.desafio.business.service.IAlbumService;
+import br.com.bitzen.desafio.business.service.IArtistaService;
 import br.com.bitzen.desafio.exception.BitzenServiceException;
 import br.com.bitzen.desafio.integration.domain.Album;
+import br.com.bitzen.desafio.integration.domain.Artista;
 import br.com.bitzen.desafio.integration.repository.AlbumRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,8 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class AlbumService implements IAlbumService {
 
+	@Autowired
+	private IArtistaService artistaService;
+	
     private final AlbumRepository albumRepository;
-
+    
     @Autowired
     public AlbumService(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
@@ -80,6 +86,11 @@ public class AlbumService implements IAlbumService {
 		if(album.getReleaseYear() < Year.now().getValue()) {
 			 throw new BitzenServiceException("Ano de lançamento de um Álbum não pode ser uma data posterior a atual");
 		}
+		
+		if(album.getArtista() == null || album.getArtista().getId() == null) throw new BitzenServiceException("Artista não pode ser nulo");
+		
+		Optional<Artista> artistaOpt = artistaService.findById(album.getArtista().getId());
+		if(!artistaOpt.isPresent()) throw new NoSuchElementException("Artista não encontrado");
 	}
 	
 }

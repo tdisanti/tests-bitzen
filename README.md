@@ -29,7 +29,7 @@ OK - Os números de faixa devem ser maiores que zero
 OK - A duração das músicas deve ter minutos e segundos validos
 OK - O endereço do site do artista deve ser uma URL válida
 OK - As fotos de perfil do artista e de capa do álbum devem ser armazenadas pela API (usando um CDN, armazenamento próprio ou alguma outra alternativa)
-● Os dados devem permanecer sempre consistentes
+OK - Os dados devem permanecer sempre consistentes
 
 **Requisitos técnicos da API:**
 OK - Deverão ser criados testes unitários
@@ -40,7 +40,7 @@ OK - Utilizar Docker para banco e API
 **Requisitos do Front-End:**
 ● Implementar o front-end para consumir a API em ReactJS
 ● Utilize Docker para o Front-End
-● Publicar o código em repositório público
+OK - Publicar o código em repositório público
 
 
 
@@ -81,18 +81,44 @@ Estão implementados **swagger** e o **console do banco de dados H2**, disponibi
 
 ## Modelos JSON
 
+**Artista**
+
+```sh
+{
+  "name": "My Band",
+  "nationality": "Brazil",
+  "website": "http://www.bandOfBrazil.com.br",
+  "profileImage": ""
+}
+```
+
+**Álbum**
+
+```sh
+{
+  "title": "Album Of The Year",
+  "releaseYear": 2024,
+  "imageCover": "",
+  "artista": {
+    "id": 1
+  }
+}
+```
+
 **Música**
 
 ```sh
 {
-  "title": "musica4",
-  "durationSeconds": 4,
-  "trackNumber": 4,
+  "title": "musica 01",
+  "durationSeconds": 23,
+  "durationMinutes": 4,
+  "trackNumber": 7,
   "album": {
     "id": 1
   }
 }
 ```
+
 
 
 ## Como executar a aplicação
@@ -126,6 +152,26 @@ JDBC URL: jdbc:h2:mem:music
 Usuário: admin
 Senha: admin
 ```
+
+
+
+## Funcionamento
+1. Artista
+    - A forma mais simples é acessar a aplicação via swagger e utilizar o **artista-controller**, endpoint POST **/artista/v1/**. Clicar no botão **Try it out**, liberando assim os campos para edição. Após o preenchimento dos campos (conforme modelo acima), clicar no botão **Execute**. O resultado será mostrado abaixo.
+    
+2. Álbum
+    - A forma mais simples é acessar a aplicação via swagger e utilizar o **album-controller**, endpoint POST **/album/v1/**. Clicar no botão **Try it out**, liberando assim os campos para edição. Após o preenchimento dos campos (conforme modelo acima), clicar no botão **Execute**. O resultado será mostrado abaixo.
+    
+3. Música
+    - A forma mais simples é acessar a aplicação via swagger e utilizar o **musica-controller**, endpoint POST **/musica/v1/**. Clicar no botão **Try it out**, liberando assim os campos para edição. Após o preenchimento dos campos (conforme modelo acima), clicar no botão **Execute**. O resultado será mostrado abaixo.
+
+4. Buscas
+	- As buscas paginadas e por ID estão implementadas em cada endpoint, sendo assim de fácil utilização
+	- Buscas adicionais por IdArtista e IdAlbim são encontradas em **musica-controller**, endpoints **/musica/v1/listAllByIdArtista/{idArtista}/** e **/musica/v1/listAllByIdAlbum/{idAlbum}/**. O campo orderBy deve ser preenchido com os valores: TITLE ou TRACK_NUMBER (ver OrderByEnum).
+
+5. Imagens
+    - Foi desenvolvida toda camada de serviço para armazenamento e recuperação das imagens via serviço AWS S3. Não está implementado na API pois não tenho uma conta real.
+		
 
 
 ## Contatos:
