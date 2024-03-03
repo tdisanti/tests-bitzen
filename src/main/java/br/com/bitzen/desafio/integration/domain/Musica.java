@@ -16,6 +16,7 @@ public class Musica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private int durationMinutes;
     private int durationSeconds;
 
     @ManyToOne

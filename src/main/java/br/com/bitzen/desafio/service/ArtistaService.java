@@ -10,8 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.bitzen.desafio.business.service.IArtistaService;
+import br.com.bitzen.desafio.exception.BitzenServiceException;
 import br.com.bitzen.desafio.integration.domain.Artista;
 import br.com.bitzen.desafio.integration.repository.ArtistaRepository;
+import br.com.bitzen.desafio.utils.DesafioBitzenUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,6 +29,8 @@ public class ArtistaService implements IArtistaService {
 
 	@Override
 	public Artista save(Artista artista) {
+		validate(artista);
+		
 		return artistaRepository.save(artista);
 	}
 
@@ -48,6 +52,8 @@ public class ArtistaService implements IArtistaService {
 
 	@Override
 	public Artista update(Artista artistaAtualizado) {
+		validate(artistaAtualizado);
+		
 		Optional<Artista> artistaOptional = artistaRepository.findById(artistaAtualizado.getId());
 
 		if (artistaOptional.isPresent()) {
@@ -67,6 +73,13 @@ public class ArtistaService implements IArtistaService {
 	@Override
 	public void delete(Long id) {
 		artistaRepository.deleteById(id);
+	}
+	
+	private void validate(Artista artista) {
+		if (artista == null) throw new BitzenServiceException("Artista não pode ser nulo");
+		
+		if(!DesafioBitzenUtils.isWebsiteValid(artista.getWebsite())) throw new BitzenServiceException("O endereço do site do artista deve ser uma URL válida. Não esqueça de adicionar http://.");
+		
 	}
 
 }

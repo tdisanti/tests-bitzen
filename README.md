@@ -24,18 +24,18 @@ OK - Deve ser possível listar todas as músicas de um determinado Artista com i
 OK - Deve ser possível listar todas as músicas de um Álbum ordenadas por número de faixa ou alfabeticamente pelo título
 OK - Os dados devem ser persistidos utilizando um banco de dados relacional
 OK - Todos os campos são obrigatórios
-● O ano de lançamento de um Álbum não pode ser uma data posterior a atual
-● Os números de faixa devem ser maiores que zero
-● A duração das músicas deve ter minutos e segundos validos
-● O endereço do site do artista deve ser uma URL válida
-● As fotos de perfil do artista e de capa do álbum devem ser armazenadas pela API (usando um CDN, armazenamento próprio ou alguma outra alternativa)
+OK - O ano de lançamento de um Álbum não pode ser uma data posterior a atual
+OK - Os números de faixa devem ser maiores que zero
+OK - A duração das músicas deve ter minutos e segundos validos
+OK - O endereço do site do artista deve ser uma URL válida
+OK - As fotos de perfil do artista e de capa do álbum devem ser armazenadas pela API (usando um CDN, armazenamento próprio ou alguma outra alternativa)
 ● Os dados devem permanecer sempre consistentes
 
 **Requisitos técnicos da API:**
 OK - Deverão ser criados testes unitários
 OK - Publicar o código em repositório público
 OK - Deve ser utilizado mapeamento objeto relacional
-● Utilizar Docker para banco e API
+OK - Utilizar Docker para banco e API
 
 **Requisitos do Front-End:**
 ● Implementar o front-end para consumir a API em ReactJS
@@ -69,6 +69,8 @@ Escolhi o **banco de dados em memória H2** por ser de fácil instalação e man
 Estão implementados **swagger** e o **console do banco de dados H2**, disponibilizados para facilitar o envio das requisições e consultas no banco diretamente via script SQL se necessário (acesso descrito abaixo).
 
 **Spring Data / JPA** - Para simplificar a camada de persistência.
+
+**AWS S3** - Implementei a gravação e recuperação de imagens em um bucket S3. Porém não estão implementados de ponta a ponta pois não tenho uma conta válida. A implementação pode ser encontrada nas classes ImageService e AWSS3OperationsService.
 
 **Endpoints** - São versionados e padronizados para facilitar a manutenibilidade do sistema.
 

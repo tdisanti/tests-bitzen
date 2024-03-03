@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.bitzen.desafio.business.service.IMusicaService;
 import br.com.bitzen.desafio.enumeration.OrderByEnum;
+import br.com.bitzen.desafio.exception.BitzenServiceException;
 import br.com.bitzen.desafio.integration.domain.Musica;
 import br.com.bitzen.desafio.integration.repository.MusicaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,8 @@ public class MusicaService implements IMusicaService {
 
     @Override
     public Musica save(Musica musica) {
+    	validate(musica);
+    	
         return musicaRepository.save(musica);
     }
 
@@ -53,6 +56,8 @@ public class MusicaService implements IMusicaService {
 
 	@Override
     public Musica update(Musica musicaAtualizada) {
+		validate(musicaAtualizada);
+		
         Optional<Musica> musicaOptional = musicaRepository.findById(musicaAtualizada.getId());
 
         if (musicaOptional.isPresent()) {
@@ -104,6 +109,17 @@ public class MusicaService implements IMusicaService {
 		}
 		
 		return result;
+	}
+	
+	private void validate(Musica musica) {
+		if (musica == null) throw new BitzenServiceException("Música não pode ser nula");
+		
+		if (musica.getTrackNumber() <= 0) throw new BitzenServiceException("Número de faixa deve ser maior que zero");
+		
+		if (musica.getDurationMinutes() < 0 || musica.getDurationMinutes() > 59 || musica.getDurationSeconds() < 0
+				|| musica.getDurationSeconds() > 59)
+			throw new BitzenServiceException("A duração das músicas deve ter minutos e segundos validos");
+		
 	}
 	
 }

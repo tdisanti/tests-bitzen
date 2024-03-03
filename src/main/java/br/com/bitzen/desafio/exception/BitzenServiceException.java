@@ -1,14 +1,14 @@
 package br.com.bitzen.desafio.exception;
 
-public class CampoInvalidoException extends RuntimeException {
+public class BitzenServiceException extends RuntimeException {
 
 	private static final long serialVersionUID = -7983976798079243488L;
 
-	public CampoInvalidoException(String msg) {
+	public BitzenServiceException(String msg) {
         super(msg);
     }
 
-    public CampoInvalidoException(String msg, Throwable cause) {
+    public BitzenServiceException(String msg, Throwable cause) {
         super(msg, cause);
     }
 

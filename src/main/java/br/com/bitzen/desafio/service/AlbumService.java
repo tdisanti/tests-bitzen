@@ -1,5 +1,6 @@
 package br.com.bitzen.desafio.service;
 
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.bitzen.desafio.business.service.IAlbumService;
+import br.com.bitzen.desafio.exception.BitzenServiceException;
 import br.com.bitzen.desafio.integration.domain.Album;
 import br.com.bitzen.desafio.integration.repository.AlbumRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,8 @@ public class AlbumService implements IAlbumService {
 
     @Override
     public Album save(Album album) {
+    	validate(album);
+    	
         return albumRepository.save(album);
     }
 
@@ -48,6 +52,8 @@ public class AlbumService implements IAlbumService {
 
 	@Override
     public Album update(Album albumAtualizado) {
+		validate(albumAtualizado);
+		
         Optional<Album> albumOptional = albumRepository.findById(albumAtualizado.getId());
 
         if (albumOptional.isPresent()) {
@@ -67,4 +73,13 @@ public class AlbumService implements IAlbumService {
     public void delete(Long id) {
         albumRepository.deleteById(id);
     }
+	
+	private void validate(Album album) {
+		if(album == null) throw new BitzenServiceException("Album não pode ser nulo");
+		
+		if(album.getReleaseYear() < Year.now().getValue()) {
+			 throw new BitzenServiceException("Ano de lançamento de um Álbum não pode ser uma data posterior a atual");
+		}
+	}
+	
 }
